@@ -134,7 +134,7 @@ def SuppressionOfCorrelatedVariable(ToSuppress,df):
 
 df3 = SuppressionOfCorrelatedVariable(ToSuppress,df2)
     
-
+df2.shape[0]
 
 
 
@@ -185,51 +185,51 @@ xtest = sc.transform(xtest)
 
 
 
-model = Sequential()
-#model.add(Dense(30, input_dim=102, kernel_initializer='normal', activation='relu'))
-model.add(Dense(51, input_dim=102, kernel_initializer='normal', activation='relu'))
-
-model.add(Dense(51, kernel_initializer='normal', activation='relu'))
-#model.add(Dense(30, kernel_initializer='normal', activation='relu'))
-#model.add(Dense(30, kernel_initializer='normal', activation='relu'))
-
-model.add(Dense(1, kernel_initializer='normal'))
-
-
-
-
-
-model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(xtrain2,ytrain2,batch_size = 5,epochs = 100)
-   
-    
-ypred = model.predict(xtest2)    
-    
-r2_RN_all_var = r2_score(ypred, ytest2)
-mse_RN_all_var = mean_squared_error(ypred,ytest2)
-
-
-
-
-model = Sequential()
-#model.add(Dense(30, input_dim=102, kernel_initializer='normal', activation='relu'))
-model.add(Dense(df3.shape[1] // 2, input_dim=df3.shape[1] - 1, kernel_initializer='normal', activation='relu'))
-
-model.add(Dense(df3.shape[1] // 2, kernel_initializer='normal', activation='relu'))
-#model.add(Dense(30, kernel_initializer='normal', activation='relu'))
-#model.add(Dense(30, kernel_initializer='normal', activation='relu'))
-
-model.add(Dense(1, kernel_initializer='normal'))
-
-
-model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(xtrain,ytrain,batch_size = 5,epochs = 100)
-
-ypred = model.predict(xtest)    
-    
-r2_RN = r2_score(ypred, ytest)
-mse_RN = mean_squared_error(ypred,ytest)
-
+#model = Sequential()
+##model.add(Dense(30, input_dim=102, kernel_initializer='normal', activation='relu'))
+#model.add(Dense(51, input_dim=102, kernel_initializer='normal', activation='relu'))
+#
+#model.add(Dense(51, kernel_initializer='normal', activation='relu'))
+##model.add(Dense(30, kernel_initializer='normal', activation='relu'))
+##model.add(Dense(30, kernel_initializer='normal', activation='relu'))
+#
+#model.add(Dense(1, kernel_initializer='normal'))
+#
+#
+#
+#
+#
+#model.compile(loss='mean_squared_error', optimizer='adam')
+#model.fit(xtrain2,ytrain2,batch_size = 5,epochs = 100)
+#   
+#    
+#ypred = model.predict(xtest2)    
+#    
+#r2_RN_all_var = r2_score(ytest2,ypred)
+#mse_RN_all_var = mean_squared_error(ytest2,ypred)
+#
+#
+#
+#
+#model = Sequential()
+##model.add(Dense(30, input_dim=102, kernel_initializer='normal', activation='relu'))
+#model.add(Dense(df3.shape[1] // 2, input_dim=df3.shape[1] - 1, kernel_initializer='normal', activation='relu'))
+#
+#model.add(Dense(df3.shape[1] // 2, kernel_initializer='normal', activation='relu'))
+##model.add(Dense(30, kernel_initializer='normal', activation='relu'))
+##model.add(Dense(30, kernel_initializer='normal', activation='relu'))
+#
+#model.add(Dense(1, kernel_initializer='normal'))
+#
+#
+#model.compile(loss='mean_squared_error', optimizer='adam')
+#model.fit(xtrain,ytrain,batch_size = 5,epochs = 100)
+#
+#ypred = model.predict(xtest)    
+#    
+#r2_RN = r2_score( ytest,ypred)
+#mse_RN = mean_squared_error(ytest,ypred)
+#
 
 
 from sklearn.tree import DecisionTreeRegressor
@@ -243,7 +243,7 @@ treeRegressor.fit(xtrain2,ytrain2)
 ypred2 = treeRegressor.predict(xtest2)
 
 mse_tr_all_var = mean_squared_error(ypred2,ytest2)
-r2_tr_all_var = r2_score(ypred2, ytest2)
+r2_tr_all_var = r2_score(ytest2,ypred2)
 
 best_var  = treeRegressor.feature_importances_
 var_data = pd.DataFrame(data = column_stack([df2.drop('ViolentCrimesPerPop',axis = 1).columns,best_var]))
@@ -256,18 +256,18 @@ treeRegressor.fit(xtrain,ytrain)
 ypred = treeRegressor.predict(xtest)
 
 mse_tr = mean_squared_error(ypred,ytest)
-r2_tr = r2_score(ypred, ytest)
+r2_tr = r2_score(ytest,ypred)
 
 
 
 from sklearn.ensemble import RandomForestRegressor
-regressor =  RandomForestRegressor()  
+regressor =  RandomForestRegressor(n_estimators = 200,max_features = "log2")  
 regressor.fit(xtrain,ytrain) 
 
 ypred = regressor.predict(xtest)
 
 mse_rdf = mean_squared_error(ypred,ytest)
-r2_rdf = r2_score(ypred, ytest)
+r2_rdf = r2_score(ytest,ypred)
 
 
 
@@ -275,7 +275,7 @@ regressor.fit(xtrain2,ytrain2)
 ypred = regressor.predict(xtest2)
 
 mse_rdf_all_var = mean_squared_error(ypred,ytest2)
-r2_rdf_all_var = r2_score(ypred, ytest2)
+r2_rdf_all_var = r2_score(ytest2,ypred)
 
 
 
